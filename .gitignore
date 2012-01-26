@@ -1,0 +1,10 @@
+# Maven build directory #
+#########################
+target/
+
+# Intellij config files #
+#########################
+*.iml
+*.ipr
+*.iws
+.idea/
