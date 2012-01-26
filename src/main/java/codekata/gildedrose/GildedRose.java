@@ -33,11 +33,11 @@ package codekata.gildedrose;
  * belong to the goblin in the corner who will insta-rage and one-shot you as he doesn’t believe in
  * shared code ownership (you can make the UpdateQuality method and Items property static if you
  * like, we’ll cover for you).</p>
- * 
+ *
  * @author Marcin Deryło
  */
 public class GildedRose {
-    
+
     public static final String AGED_BRIE = "Aged Brie";
     public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
     public static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
@@ -48,20 +48,20 @@ public class GildedRose {
      * Don't you dare changing it!
      */
     private final Item[] items;
-    
+
     public GildedRose() {
         items = new Item[]{
-            // first step
-            new Item(DEXTERITY_VEST, 10, 20),
-            new Item(ELIXIR_OF_THE_MONGOOSE, 5, 7),
-            // second step
-            new Item(AGED_BRIE, 2, 0),
-            new Item(SULFURAS, 0, 80),
-            new Item(BACKSTAGE_PASSES, 15, 20),
-            // third step
-            new Item(CONJURED_MANA_CAKE, 3, 6)};
+                // first step
+                new Item(DEXTERITY_VEST, 10, 20),
+                new Item(ELIXIR_OF_THE_MONGOOSE, 5, 7),
+                // second step
+                new Item(AGED_BRIE, 2, 0),
+                new Item(SULFURAS, 0, 80),
+                new Item(BACKSTAGE_PASSES, 15, 20),
+                // third step
+                new Item(CONJURED_MANA_CAKE, 3, 6)};
     }
-    
+
     public Item getItem(String name) {
         for (Item item : items) {
             if (item.getName().equals(name)) {
@@ -70,57 +70,59 @@ public class GildedRose {
         }
         throw new IllegalArgumentException("Item " + name + " not found");
     }
-    
+
     public void updateQuality() {
         for (Item item : items) {
             if (!AGED_BRIE.equals(item.getName())
-                && !BACKSTAGE_PASSES.equals(item.getName())) {
-                if (item.getQuality() > 0) {
-                    if (!item.getName().equals(SULFURAS)) {
-                        item.setQuality(item.getQuality() - 1);
-                    }
+                    && !BACKSTAGE_PASSES.equals(item.getName())) {
+                if (!item.getName().equals(SULFURAS)) {
+                    decreaseQuality(item);
                 }
             } else {
                 if (item.getQuality() < 50) {
                     item.setQuality(item.getQuality() + 1);
-                    
+
                     if (item.getName().equals(BACKSTAGE_PASSES)) {
                         if (item.getSellIn() < 11) {
-                            if (item.getQuality() < 50) {
-                                item.setQuality(item.getQuality() + 1);
-                            }
+                            increaseQuality(item);
                         }
-                        
+
                         if (item.getSellIn() < 6) {
-                            if (item.getQuality() < 50) {
-                                item.setQuality(item.getQuality() + 1);
-                            }
+                            increaseQuality(item);
                         }
                     }
                 }
             }
-            
+
             if (!item.getName().equals(SULFURAS)) {
                 item.setSellIn(item.getSellIn() - 1);
             }
-            
+
             if (item.getSellIn() < 0) {
                 if (!item.getName().equals(AGED_BRIE)) {
                     if (!item.getName().equals(BACKSTAGE_PASSES)) {
-                        if (item.getQuality() > 0) {
-                            if (!item.getName().equals(SULFURAS)) {
-                                item.setQuality(item.getQuality() - 1);
-                            }
+                        if (!item.getName().equals(SULFURAS)) {
+                            decreaseQuality(item);
                         }
                     } else {
-                        item.setQuality(item.getQuality() - item.getQuality());
+                        item.setQuality(0);
                     }
                 } else {
-                    if (item.getQuality() < 50) {
-                        item.setQuality(item.getQuality() + 1);
-                    }
+                    increaseQuality(item);
                 }
             }
+        }
+    }
+
+    private void decreaseQuality(Item item) {
+        if (item.getQuality() > 0) {
+            item.setQuality(item.getQuality() - 1);
+        }
+    }
+
+    private void increaseQuality(Item item) {
+        if (item.getQuality() < 50) {
+            item.setQuality(item.getQuality() + 1);
         }
     }
 }
