@@ -2,3 +2,5 @@ My take on the Gilded Rose kata (https://github.com/NotMyself/GildedRose), imple
 
 In addition to the initial kata code I have included a suite of tests for currently implemented features. These were
 created prior to any attempt to refactor this plate of spaghetti code (never touch legacy code without coverage!).
+
+Master branch contains the spaghetti code. My implementations will use separate branches.
