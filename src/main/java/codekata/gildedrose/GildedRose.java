@@ -81,17 +81,14 @@ public class GildedRose {
                 decreaseQuality(item);
             }
         } else {
-            if (item.getQuality() < 50) {
-                item.setQuality(item.getQuality() + 1);
+            increaseQuality(item);
+            if (item.getName().equals(BACKSTAGE_PASSES)) {
+                if (item.getSellIn() < 11) {
+                    increaseQuality(item);
+                }
 
-                if (item.getName().equals(BACKSTAGE_PASSES)) {
-                    if (item.getSellIn() < 11) {
-                        increaseQuality(item);
-                    }
-
-                    if (item.getSellIn() < 6) {
-                        increaseQuality(item);
-                    }
+                if (item.getSellIn() < 6) {
+                    increaseQuality(item);
                 }
             }
         }
