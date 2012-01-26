@@ -51,14 +51,11 @@ public class GildedRose {
 
     public GildedRose() {
         items = new Item[]{
-                // first step
                 new Item(DEXTERITY_VEST, 10, 20),
                 new Item(ELIXIR_OF_THE_MONGOOSE, 5, 7),
-                // second step
                 new Item(AGED_BRIE, 2, 0),
                 new Item(SULFURAS, 0, 80),
                 new Item(BACKSTAGE_PASSES, 15, 20),
-                // third step
                 new Item(CONJURED_MANA_CAKE, 3, 6)};
     }
 
@@ -73,43 +70,47 @@ public class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (!AGED_BRIE.equals(item.getName())
-                    && !BACKSTAGE_PASSES.equals(item.getName())) {
-                if (!item.getName().equals(SULFURAS)) {
-                    decreaseQuality(item);
-                }
-            } else {
-                if (item.getQuality() < 50) {
-                    item.setQuality(item.getQuality() + 1);
+            updateQuality(item);
+        }
+    }
 
-                    if (item.getName().equals(BACKSTAGE_PASSES)) {
-                        if (item.getSellIn() < 11) {
-                            increaseQuality(item);
-                        }
+    private void updateQuality(Item item) {
+        if (!AGED_BRIE.equals(item.getName())
+                && !BACKSTAGE_PASSES.equals(item.getName())) {
+            if (!item.getName().equals(SULFURAS)) {
+                decreaseQuality(item);
+            }
+        } else {
+            if (item.getQuality() < 50) {
+                item.setQuality(item.getQuality() + 1);
 
-                        if (item.getSellIn() < 6) {
-                            increaseQuality(item);
-                        }
+                if (item.getName().equals(BACKSTAGE_PASSES)) {
+                    if (item.getSellIn() < 11) {
+                        increaseQuality(item);
+                    }
+
+                    if (item.getSellIn() < 6) {
+                        increaseQuality(item);
                     }
                 }
             }
+        }
 
-            if (!item.getName().equals(SULFURAS)) {
-                item.setSellIn(item.getSellIn() - 1);
-            }
+        if (!item.getName().equals(SULFURAS)) {
+            item.setSellIn(item.getSellIn() - 1);
+        }
 
-            if (item.getSellIn() < 0) {
-                if (!item.getName().equals(AGED_BRIE)) {
-                    if (!item.getName().equals(BACKSTAGE_PASSES)) {
-                        if (!item.getName().equals(SULFURAS)) {
-                            decreaseQuality(item);
-                        }
-                    } else {
-                        item.setQuality(0);
+        if (item.getSellIn() < 0) {
+            if (!item.getName().equals(AGED_BRIE)) {
+                if (!item.getName().equals(BACKSTAGE_PASSES)) {
+                    if (!item.getName().equals(SULFURAS)) {
+                        decreaseQuality(item);
                     }
                 } else {
-                    increaseQuality(item);
+                    item.setQuality(0);
                 }
+            } else {
+                increaseQuality(item);
             }
         }
     }
