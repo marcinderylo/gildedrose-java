@@ -1,2 +1,4 @@
 My take on the Gilded Rose kata (https://github.com/NotMyself/GildedRose), implemented in Java.
-This file was modified by IntelliJ IDEA 11.0.1 for binding GitHub repository
+
+In addition to the initial kata code I have included a suite of tests for currently implemented features. These were
+created prior to any attempt to refactor this plate of spaghetti code (never touch legacy code without coverage!).
