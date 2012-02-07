@@ -75,11 +75,43 @@ public class GildedRose {
     }
 
     private void updateQuality(Item item) {
-        if (AGED_BRIE.equals(item.getName())) {
+        adjustQuality(item);
+        adjustSellIn(item);
+        if (isOutOfDate(item)) {
+            adjustQualityWhenOutOfDate(item);
+        }
+    }
+
+    private boolean isOutOfDate(Item item) {
+        return item.getSellIn() < 0;
+    }
+
+    private void adjustQualityWhenOutOfDate(Item item) {
+        if (isA(item, AGED_BRIE)) {
             increaseQuality(item);
-        } else if (BACKSTAGE_PASSES.equals(item.getName())) {
+        } else if (isA(item, BACKSTAGE_PASSES)) {
+            item.setQuality(0);
+        } else if (isA(item, SULFURAS)) {
+            // noop
+        } else {
+            decreaseQuality(item);
+        }
+    }
+
+    private void adjustSellIn(Item item) {
+        if (isA(item, SULFURAS)) {
+            // noop
+        } else {
+            item.setSellIn(item.getSellIn() - 1);
+        }
+    }
+
+    private void adjustQuality(Item item) {
+        if (isA(item, AGED_BRIE)) {
             increaseQuality(item);
-            if (BACKSTAGE_PASSES.equals(item.getName())) {
+        } else if (isA(item, BACKSTAGE_PASSES)) {
+            increaseQuality(item);
+            if (isA(item, BACKSTAGE_PASSES)) {
                 if (item.getSellIn() < 11) {
                     increaseQuality(item);
                 }
@@ -88,25 +120,15 @@ public class GildedRose {
                     increaseQuality(item);
                 }
             }
-        } else if (SULFURAS.equals(item.getName())) {
+        } else if (isA(item, SULFURAS)) {
+            // noop
         } else {
             decreaseQuality(item);
         }
+    }
 
-        if (!SULFURAS.equals(item.getName())) {
-            item.setSellIn(item.getSellIn() - 1);
-        }
-
-        if (item.getSellIn() < 0) {
-            if (AGED_BRIE.equals(item.getName())) {
-                increaseQuality(item);
-            } else if (BACKSTAGE_PASSES.equals(item.getName())) {
-                item.setQuality(0);
-            } else if (SULFURAS.equals(item.getName())) {
-            } else {
-                decreaseQuality(item);
-            }
-        }
+    private boolean isA(Item item, String itemName) {
+        return itemName.equals(item.getName());
     }
 
     private void decreaseQuality(Item item) {
