@@ -82,8 +82,25 @@ public class GildedRose {
         }
     }
 
-    private boolean isOutOfDate(Item item) {
-        return item.getSellIn() < 0;
+    private void adjustQuality(Item item) {
+        if (isA(item, AGED_BRIE)) {
+            increaseQuality(item);
+        } else if (isA(item, BACKSTAGE_PASSES)) {
+            increaseQuality(item);
+            if (isA(item, BACKSTAGE_PASSES)) {
+                if (item.getSellIn() < 11) {
+                    increaseQuality(item);
+                }
+
+                if (item.getSellIn() < 6) {
+                    increaseQuality(item);
+                }
+            }
+        } else if (isA(item, SULFURAS)) {
+            // noop
+        } else {
+            decreaseQuality(item);
+        }
     }
 
     private void adjustQualityWhenOutOfDate(Item item) {
@@ -106,25 +123,8 @@ public class GildedRose {
         }
     }
 
-    private void adjustQuality(Item item) {
-        if (isA(item, AGED_BRIE)) {
-            increaseQuality(item);
-        } else if (isA(item, BACKSTAGE_PASSES)) {
-            increaseQuality(item);
-            if (isA(item, BACKSTAGE_PASSES)) {
-                if (item.getSellIn() < 11) {
-                    increaseQuality(item);
-                }
-
-                if (item.getSellIn() < 6) {
-                    increaseQuality(item);
-                }
-            }
-        } else if (isA(item, SULFURAS)) {
-            // noop
-        } else {
-            decreaseQuality(item);
-        }
+    private boolean isOutOfDate(Item item) {
+        return item.getSellIn() < 0;
     }
 
     private boolean isA(Item item, String itemName) {
