@@ -87,20 +87,11 @@ public class GildedRose {
     }
 
     private void adjustQuality(Item item) {
-        QualityPolicy policy = new NeverChangesQuality();
+        QualityPolicy policy;
         if (isA(item, AGED_BRIE)) {
-            increaseQuality(item);
+            policy = new IncreasesQualityOverTime();
         } else if (isA(item, BACKSTAGE_PASSES)) {
-            increaseQuality(item);
-            if (isA(item, BACKSTAGE_PASSES)) {
-                if (item.getSellIn() < 11) {
-                    increaseQuality(item);
-                }
-
-                if (item.getSellIn() < 6) {
-                    increaseQuality(item);
-                }
-            }
+            policy = new ValidBackstagePassQualityPolicy();
         } else if (isA(item, SULFURAS)) {
             policy = new NeverChangesQuality();
         } else {
