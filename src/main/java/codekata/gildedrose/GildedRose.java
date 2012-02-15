@@ -87,6 +87,7 @@ public class GildedRose {
     }
 
     private void adjustQuality(Item item) {
+        QualityPolicy policy = new NeverChangesQuality();
         if (isA(item, AGED_BRIE)) {
             increaseQuality(item);
         } else if (isA(item, BACKSTAGE_PASSES)) {
@@ -101,10 +102,11 @@ public class GildedRose {
                 }
             }
         } else if (isA(item, SULFURAS)) {
-            // noop
+            policy = new NeverChangesQuality();
         } else {
-            decreaseQuality(item);
+            policy = new DecreasesQualityOverTime();
         }
+        policy.dayPassed(item);
     }
 
     private void adjustQualityWhenOutOfDate(Item item) {
