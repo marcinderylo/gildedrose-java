@@ -102,15 +102,17 @@ public class GildedRose {
     }
 
     private void adjustQualityWhenOutOfDate(Item item) {
+        QualityPolicy policy;
         if (isA(item, AGED_BRIE)) {
-            increaseQuality(item);
+            policy = new IncreasesQualityOverTime();
         } else if (isA(item, BACKSTAGE_PASSES)) {
-            item.setQuality(0);
+            policy = new DropsQualityToZero();
         } else if (isA(item, SULFURAS)) {
-            // noop
+            policy = new NeverChangesQuality();
         } else {
-            decreaseQuality(item);
+            policy = new DecreasesQualityOverTime();
         }
+        policy.dayPassed(item);
     }
 
     private void adjustSellIn(Item item) {
@@ -129,17 +131,5 @@ public class GildedRose {
 
     private boolean isA(Item item, String itemName) {
         return itemName.equals(item.getName());
-    }
-
-    private void decreaseQuality(Item item) {
-        if (item.getQuality() > 0) {
-            item.setQuality(item.getQuality() - 1);
-        }
-    }
-
-    private void increaseQuality(Item item) {
-        if (item.getQuality() < 50) {
-            item.setQuality(item.getQuality() + 1);
-        }
     }
 }
