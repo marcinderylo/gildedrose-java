@@ -1,5 +1,9 @@
 package codekata.gildedrose;
 
+import codekata.gildedrose.sellin.AgesNormally;
+import codekata.gildedrose.sellin.NeverAges;
+import codekata.gildedrose.sellin.SellInPolicy;
+
 /**
  * <p>Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a
  * prominent city ran by a friendly innkeeper named Allison. We also buy and sell only the finest
@@ -116,11 +120,13 @@ public class GildedRose {
     }
 
     private void adjustSellIn(Item item) {
+        SellInPolicy policy;
         if (isA(item, SULFURAS)) {
-            // noop
+            policy = new NeverAges();
         } else {
-            item.setSellIn(item.getSellIn() - 1);
+            policy = new AgesNormally();
         }
+        policy.dayPassed(item);
     }
 
     private boolean isOutOfDate(Item item) {
