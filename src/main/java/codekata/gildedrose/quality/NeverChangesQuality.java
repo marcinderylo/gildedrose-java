@@ -7,6 +7,6 @@ import codekata.gildedrose.Item;
  */
 public class NeverChangesQuality implements QualityPolicy {
     @Override
-    public void dayPassed(Item item) {
+    public void apply(Item item) {
     }
 }

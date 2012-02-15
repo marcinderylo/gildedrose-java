@@ -8,5 +8,5 @@ import codekata.gildedrose.Item;
  * @author Marcin Deryło <marcinderylo@gmail.com>
  */
 public interface QualityPolicy {
-    void dayPassed(Item item);
+    void apply(Item item);
 }

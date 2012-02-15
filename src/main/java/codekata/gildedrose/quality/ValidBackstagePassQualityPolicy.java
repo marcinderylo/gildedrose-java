@@ -10,7 +10,7 @@ public class ValidBackstagePassQualityPolicy implements QualityPolicy {
     private final QualityPolicy increaseQuality = new IncreasesQualityOverTime();
 
     @Override
-    public void dayPassed(Item item) {
+    public void apply(Item item) {
         increaseQuality(item);
         if (item.getSellIn() < 11) {
             increaseQuality(item);
@@ -21,6 +21,6 @@ public class ValidBackstagePassQualityPolicy implements QualityPolicy {
     }
 
     private void increaseQuality(Item item) {
-        increaseQuality.dayPassed(item);
+        increaseQuality.apply(item);
     }
 }

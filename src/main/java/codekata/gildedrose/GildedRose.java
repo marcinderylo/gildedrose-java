@@ -1,9 +1,8 @@
 package codekata.gildedrose;
 
-import codekata.gildedrose.quality.*;
-import codekata.gildedrose.sellin.AgesNormally;
-import codekata.gildedrose.sellin.NeverAges;
-import codekata.gildedrose.sellin.SellInPolicy;
+import static codekata.gildedrose.quality.QualityPolicies.qualityPolicyAdjustmentForOutOfDateItem;
+import static codekata.gildedrose.quality.QualityPolicies.regularQualityPolicyFor;
+import static codekata.gildedrose.sellin.SellInPolicies.sellInPolicyFor;
 
 /**
  * <p>Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a
@@ -80,56 +79,15 @@ public class GildedRose {
     }
 
     private void updateQuality(Item item) {
-        adjustQuality(item);
-        adjustSellIn(item);
+        regularQualityPolicyFor(item).apply(item);
+        sellInPolicyFor(item).apply(item);
         if (isOutOfDate(item)) {
-            adjustQualityWhenOutOfDate(item);
+            qualityPolicyAdjustmentForOutOfDateItem(item).apply(item);
         }
-    }
-
-    private void adjustQuality(Item item) {
-        QualityPolicy policy;
-        if (isA(item, AGED_BRIE)) {
-            policy = new IncreasesQualityOverTime();
-        } else if (isA(item, BACKSTAGE_PASSES)) {
-            policy = new ValidBackstagePassQualityPolicy();
-        } else if (isA(item, SULFURAS)) {
-            policy = new NeverChangesQuality();
-        } else {
-            policy = new DecreasesQualityOverTime();
-        }
-        policy.dayPassed(item);
-    }
-
-    private void adjustQualityWhenOutOfDate(Item item) {
-        QualityPolicy policy;
-        if (isA(item, AGED_BRIE)) {
-            policy = new IncreasesQualityOverTime();
-        } else if (isA(item, BACKSTAGE_PASSES)) {
-            policy = new DropsQualityToZero();
-        } else if (isA(item, SULFURAS)) {
-            policy = new NeverChangesQuality();
-        } else {
-            policy = new DecreasesQualityOverTime();
-        }
-        policy.dayPassed(item);
-    }
-
-    private void adjustSellIn(Item item) {
-        SellInPolicy policy;
-        if (isA(item, SULFURAS)) {
-            policy = new NeverAges();
-        } else {
-            policy = new AgesNormally();
-        }
-        policy.dayPassed(item);
     }
 
     private boolean isOutOfDate(Item item) {
         return item.getSellIn() < 0;
     }
 
-    private boolean isA(Item item, String itemName) {
-        return itemName.equals(item.getName());
-    }
 }
