@@ -1,4 +1,6 @@
-package codekata.gildedrose;
+package codekata.gildedrose.quality;
+
+import codekata.gildedrose.Item;
 
 /**
  * Describes how 'quality' property of item changes as time passes.

@@ -1,4 +1,6 @@
-package codekata.gildedrose;
+package codekata.gildedrose.quality;
+
+import codekata.gildedrose.Item;
 
 /**
  * @author Marcin Deryło <marcinderylo@gmail.com>

@@ -1,5 +1,6 @@
 package codekata.gildedrose;
 
+import codekata.gildedrose.quality.*;
 import codekata.gildedrose.sellin.AgesNormally;
 import codekata.gildedrose.sellin.NeverAges;
 import codekata.gildedrose.sellin.SellInPolicy;
