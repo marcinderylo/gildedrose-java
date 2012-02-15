@@ -18,12 +18,6 @@ public abstract class BaseGildedRoseTest {
     }
     private GildedRose inn;
 
-    /**
-     * @return the inn
-     */
-    /**
-     * @return the inn
-     */
     protected final ItemAssert assertThat(String itemName) {
         return ItemAssert.assertThat(inn.getItem(itemName));
     }
@@ -36,5 +30,9 @@ public abstract class BaseGildedRoseTest {
 
     protected final void oneDayPassed() {
         daysPassed(1);
+    }
+    
+    protected final void changeItemQuality(String itemName, int newQuality) {
+        inn.getItem(itemName).setQuality(newQuality);
     }
 }

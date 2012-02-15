@@ -19,7 +19,7 @@ public class SellInPolicies {
         return policy;
     }
 
-    public static boolean isA(Item item, String itemName) {
+    private static boolean isA(Item item, String itemName) {
         return itemName.equals(item.getName());
     }
 }

@@ -2,7 +2,6 @@ package codekata.gildedrose.quality;
 
 import codekata.gildedrose.GildedRose;
 import codekata.gildedrose.Item;
-import codekata.gildedrose.sellin.SellInPolicies;
 
 /**
  * @author Marcin Deryło <marcinderylo@gmail.com>
@@ -10,12 +9,14 @@ import codekata.gildedrose.sellin.SellInPolicies;
 public class QualityPolicies {
     public static QualityPolicy regularQualityPolicyFor(Item item) {
         QualityPolicy policy;
-        if (SellInPolicies.isA(item, GildedRose.AGED_BRIE)) {
+        if (isA(item, GildedRose.AGED_BRIE)) {
             policy = new IncreasesQualityOverTime();
-        } else if (SellInPolicies.isA(item, GildedRose.BACKSTAGE_PASSES)) {
+        } else if (isA(item, GildedRose.BACKSTAGE_PASSES)) {
             policy = new ValidBackstagePassQualityPolicy();
-        } else if (SellInPolicies.isA(item, GildedRose.SULFURAS)) {
+        } else if (isA(item, GildedRose.SULFURAS)) {
             policy = new NeverChangesQuality();
+        } else if (isA(item, GildedRose.CONJURED_MANA_CAKE)) {
+            policy = new DecreasesQualityFaster(2);
         } else {
             policy = new DecreasesQualityOverTime();
         }
@@ -24,15 +25,21 @@ public class QualityPolicies {
 
     public static QualityPolicy qualityPolicyAdjustmentForOutOfDateItem(Item item) {
         QualityPolicy policy;
-        if (SellInPolicies.isA(item, GildedRose.AGED_BRIE)) {
+        if (isA(item, GildedRose.AGED_BRIE)) {
             policy = new IncreasesQualityOverTime();
-        } else if (SellInPolicies.isA(item, GildedRose.BACKSTAGE_PASSES)) {
+        } else if (isA(item, GildedRose.BACKSTAGE_PASSES)) {
             policy = new DropsQualityToZero();
-        } else if (SellInPolicies.isA(item, GildedRose.SULFURAS)) {
+        } else if (isA(item, GildedRose.SULFURAS)) {
             policy = new NeverChangesQuality();
-        } else {
+        } else if (isA(item, GildedRose.CONJURED_MANA_CAKE)) {
+            policy = new DecreasesQualityFaster(2);
+        } else
             policy = new DecreasesQualityOverTime();
-        }
         return policy;
+    }
+
+
+    private static boolean isA(Item item, String itemName) {
+        return itemName.equals(item.getName());
     }
 }
